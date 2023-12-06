@@ -6,19 +6,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/custom_column.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
-  int teamAPoints = 0;
-  int teamBPoints = 0;
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CounterCubit, CounterState>(
       listener: (context, state) {
         if(state is CounterAIncrementState) {
-          teamAPoints = BlocProvider.of<CounterCubit>(context).teamAPoints;
+          BlocProvider.of<CounterCubit>(context).teamAPoints;
         }else {
-          teamBPoints = BlocProvider.of<CounterCubit>(context).teamBPoints;
+        BlocProvider.of<CounterCubit>(context).teamBPoints;
 
         }
 
@@ -36,9 +34,9 @@ class HomePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  CustomColumn(txt: 'A' , teamAPoints: teamAPoints),
+                  CustomColumn(txt: 'A' , teamAPoints: BlocProvider.of<CounterCubit>(context).teamAPoints),
                   Container(color: Colors.grey, height: 400, width: 1),
-                  CustomColumn(txt: 'B', teamBPoints: teamBPoints),
+                  CustomColumn(txt: 'B', teamBPoints: BlocProvider.of<CounterCubit>(context).teamBPoints),
                 ],
               ),
             ),

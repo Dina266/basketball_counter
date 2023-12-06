@@ -11,12 +11,16 @@ class CounterCubit extends Cubit<CounterState> {
     if (team == 'A') {
       teamAPoints += buttomNum;
       emit(CounterAIncrementState());
-
     } else {
-
       teamBPoints += buttomNum;
       emit(CounterBIncrementState());
-
     }
+  }
+
+  void reset() {
+    teamAPoints = 0;
+    teamBPoints = 0;
+    emit(CounterAIncrementState());
+    emit(CounterBIncrementState());
   }
 }

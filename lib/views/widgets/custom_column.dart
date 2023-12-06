@@ -1,9 +1,13 @@
+import 'package:basketball_points_counter/cubit/counter_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomColumn extends StatelessWidget {
-const CustomColumn({super.key, required this.txt });
+const CustomColumn({super.key, required this.txt, this.teamAPoints, this.teamBPoints ,  });
 
   final String txt;
+  final int? teamAPoints;
+  final int? teamBPoints;
 
   @override
   Widget build(BuildContext context) {
@@ -13,14 +17,14 @@ const CustomColumn({super.key, required this.txt });
           'Team $txt',
           style: const TextStyle(fontSize: 40),
         ),
-        Text('${txt == 'A' ? 0 : 0}',
-            style: const TextStyle(fontSize: 150)),
+        Text('${txt == 'A' ? teamAPoints : teamBPoints}',
+            style: const TextStyle(fontSize: 100)),
         const SizedBox(
           height: 20,
         ),
         ElevatedButton(
           onPressed: () {
-            
+            BlocProvider.of<CounterCubit>(context).teamIncrement(team: txt, buttomNum: 1);
           },
           style: const ButtonStyle(
             backgroundColor: MaterialStatePropertyAll<Color>(Colors.orange),
@@ -34,7 +38,7 @@ const CustomColumn({super.key, required this.txt });
         SizedBox(height: 10,),
         ElevatedButton(
           onPressed: () {
-            
+            BlocProvider.of<CounterCubit>(context).teamIncrement(team: txt, buttomNum: 2);
           },
           style: const ButtonStyle(
             backgroundColor: MaterialStatePropertyAll<Color>(Colors.orange),
@@ -48,7 +52,7 @@ const CustomColumn({super.key, required this.txt });
         SizedBox(height: 10,),
         ElevatedButton(
           onPressed: () {
-            
+            BlocProvider.of<CounterCubit>(context).teamIncrement(team: txt, buttomNum: 3);
           },
           style: const ButtonStyle(
             backgroundColor: MaterialStatePropertyAll<Color>(Colors.orange),

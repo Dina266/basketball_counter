@@ -1,53 +1,68 @@
+import 'package:basketball_points_counter/cubit/counter_cubit.dart';
+import 'package:basketball_points_counter/cubit/counter_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widgets/custom_column.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  int teamAPoints = 0;
+  int teamBPoints = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.orange,
-          title: const Text('Points Counter'),
-        ),
-        body: Column(children: [
-          // Spacer(flex: 1),
-          Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const CustomColumn( txt :'A'),
-                Container(
-                  color: Colors.grey,
-                  height: 400,
-                  width: 1
-                ), 
-                const CustomColumn(txt : 'B'),
-              ],
-            ),
+    return BlocConsumer<CounterCubit, CounterState>(
+      listener: (context, state) {
+        if(state is CounterAIncrementState) {
+          teamAPoints = BlocProvider.of<CounterCubit>(context).teamAPoints;
+        }else {
+          teamBPoints = BlocProvider.of<CounterCubit>(context).teamBPoints;
+
+        }
+
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.orange,
+            title: const Text('Points Counter'),
           ),
-          const Spacer(flex: 2),
-          ElevatedButton(
-            onPressed: () {
-              
-            },
-            style: const ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll<Color>(Colors.orange),
-              minimumSize: MaterialStatePropertyAll(Size(150, 40)),
+          body: Column(children: [
+            // Spacer(flex: 1),
+            Padding(
+              padding: const EdgeInsets.only(top: 40.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CustomColumn(txt: 'A' , teamAPoints: teamAPoints),
+                  Container(color: Colors.grey, height: 400, width: 1),
+                  CustomColumn(txt: 'B', teamBPoints: teamBPoints),
+                ],
+              ),
             ),
-            child: const Text(
-              'Reset',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
+            const Spacer(flex: 2),
+            ElevatedButton(
+              onPressed: () {
+                BlocProvider.of<CounterCubit>(context).reset();
+              },
+              style: const ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll<Color>(Colors.orange),
+                minimumSize: MaterialStatePropertyAll(Size(150, 40)),
+              ),
+              child: const Text(
+                'Reset',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          const Spacer(flex: 1)
-        ]),
-      );
+            const Spacer(flex: 1)
+          ]),
+        );
+      },
+    );
   }
 }
